@@ -36,8 +36,8 @@ import Math.Quaternion as Quaternion exposing (Quat)
 {-| Defines the bridge type that will allow the main program to communicate with the OrbitControls. These events are emitted
 by OrbitControls and then handled by the main program.
 -}
-type alias OrbitEvent =
-    { event : OrbitEventType }
+type OrbitEvent
+    = InternalEvent { event : OrbitEventType }
 
 
 type OrbitEventType
@@ -155,7 +155,7 @@ listeners state message =
                 mouseEventDecoder : (MouseEvent -> OrbitEventType) -> Decode.Decoder msg
                 mouseEventDecoder msg =
                     (Decode.map
-                        (\evt -> message { event = msg evt })
+                        (\evt -> message (InternalEvent { event = msg evt }))
                         (Decode.map4 MouseEvent
                             (Decode.field "clientX" Decode.float)
                             (Decode.field "clientY" Decode.float)
@@ -168,7 +168,7 @@ listeners state message =
                     [ Events.on
                         "wheel"
                         (Decode.map
-                            (\event -> message { event = Zoom event.deltaY })
+                            (\event -> message (InternalEvent { event = Zoom event.deltaY }))
                             (Decode.map2 WheelEvent
                                 (Decode.field "deltaY" Decode.int)
                                 (Decode.field "deltaX" Decode.int)
@@ -227,9 +227,9 @@ by an underlying event.
 
 -}
 applyWithOptions : Options -> OrbitEvent -> ( Vec3, State ) -> ( Vec3, State )
-applyWithOptions options event ( position, internalState ) =
-    case internalState of
-        InternalState state ->
+applyWithOptions options internalEvent ( position, internalState ) =
+    case ( internalEvent, internalState ) of
+        ( InternalEvent event, InternalState state ) ->
             case event.event of
                 Zoom dy ->
                     let

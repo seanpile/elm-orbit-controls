@@ -1,5 +1,5 @@
 {
-    "version": "1.0.2",
+    "version": "2.0.0",
     "summary": "OrbitControls provides orbiting for objects around a target",
     "repository": "https://github.com/seanpile/elm-orbit-controls.git",
     "license": "MIT",
