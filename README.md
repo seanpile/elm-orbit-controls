@@ -4,6 +4,14 @@ An Elm library that provides the ability to orbit an object in space around a ta
 * [orbit-controls](https://github.com/Jam3/orbit-controls)
 * [three.js](https://github.com/mrdoob/three.js/blob/dev/examples/js/controls/OrbitControls.js)
 
+# Dependencies
+
+This project requires the use of the  [elm-community/linear-algebra](https://github.com/elm-community/linear-algebra) package for Vectors and Matrices.
+
+# Documentation
+
+See the generated documentation in the [elm package repository](http://package.elm-lang.org/packages/seanpile/elm-orbit-controls/latest)
+
 # Basic Example
 
 ```elm
@@ -29,7 +37,7 @@ init =
 -- Add listeners to the DOM element you are embedding your content in
 view : Model -> Html Msg
 view model =
-  div [ OrbitControls.listeners state OnOrbit ]
+  div (OrbitControls.listeners state OnOrbit)
       [ WebGL.toHtml ... ]
 
 
