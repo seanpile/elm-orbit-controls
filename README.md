@@ -37,7 +37,7 @@ init =
 -- Add listeners to the DOM element you are embedding your content in
 view : Model -> Html Msg
 view model =
-  div (OrbitControls.listeners state OnOrbit)
+  div (OrbitControls.listeners model.state OnOrbit)
       [ WebGL.toHtml ... ]
 
 
@@ -54,6 +54,7 @@ update msg model =
         -- Do something with the new camera position
         ...
       in
+        -- Keep track of the updated state
         ( { model | state = updatedState }, Cmd.none )
 
 
